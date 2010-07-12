@@ -6,6 +6,8 @@ Created on Jul 11, 2010
 
 from nltk.corpus import wordnet as wn
 import itertools
+from fabric.operations import prompt 
+from fabric.contrib.console import confirm
 
 def flatten(lst):
     for elem in lst:
@@ -16,8 +18,18 @@ def flatten(lst):
             yield elem
 
 
+def get_type_expansion_prompt():
+    name = ""
+    shallow = confirm("shallow?",default=False)
+    unique = confirm("unique?",default=True)
+    while name is not "quit":
+        name = prompt('please specify the type of person:')
+        print "getting expansion for %s" % name
+        print get_type_expansion(name,shallow,unique)
+
+
 def get_type_expansion(name,shallow=False,unique=True):
-    syn = get_syn(name)
+    syn = get_syn(name.replace(" ","_"))
     if not syn:
         return None
     
@@ -44,7 +56,6 @@ def get_type_expansion(name,shallow=False,unique=True):
 
     return names
     
-        
 def get_syn(typename):
     syns = wn.synsets(typename)
     if len(syns) > 0:
@@ -54,7 +65,7 @@ def get_syn(typename):
     
 if __name__ == "__main__":
     import sys
-    print (get_type_expansion(sys.argv[1],shallow=False,unique=False))
+    get_type_expansion_prompt()
     
     
     

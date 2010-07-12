@@ -15,6 +15,7 @@ def flatten(lst):
         else:
             yield elem
 
+
 def get_type_expansion(name,shallow=False,unique=True):
     syn = get_syn(name)
     if not syn:
@@ -42,8 +43,6 @@ def get_type_expansion(name,shallow=False,unique=True):
             names.extend([name.replace("_"," ") for name in synset.lemma_names])
 
     return names
-
-
     
         
 def get_syn(typename):
@@ -53,9 +52,6 @@ def get_syn(typename):
     else:
         return None
     
-         
-        
-
 if __name__ == "__main__":
     import sys
     print (get_type_expansion(sys.argv[1],shallow=False,unique=False))
